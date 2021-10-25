@@ -32,7 +32,7 @@
     comment: "Couchbase Exporter Account"
     group: "{{ couchbase_exporter_group }}"
     shell: /bin/false
-    createhome: no
+    createhome: false
 
 - name: Download couchbase-exporter sources
   git:
@@ -69,7 +69,7 @@
   file:
     path: "{{ couchbase_exporter_directory }}"
     state: directory
-    recurse: yes
+    recurse: true
     owner: "{{ couchbase_exporter_user }}"
     group: "{{ couchbase_exporter_group }}"
     mode: 0644
@@ -78,7 +78,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    recurse: yes
+    recurse: true
     owner: "{{ couchbase_exporter_user }}"
     group: "{{ couchbase_exporter_group }}"
     mode: 0755
@@ -105,6 +105,6 @@
 
 - name: Wait for couchbase-exporter to start
   wait_for:
-      host: "{{ couchbase_exporter_server_address }}"
-      port: "{{ couchbase_exporter_server_port }}"
-      connect_timeout: 5
+    host: "{{ couchbase_exporter_server_address }}"
+    port: "{{ couchbase_exporter_server_port }}"
+    connect_timeout: 5
