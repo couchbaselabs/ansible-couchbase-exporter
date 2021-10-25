@@ -6,7 +6,7 @@ couchbase_exporter_verison: HEAD
 couchbase_exporter_cb_username: Administrator
 
 # The password to use for the Monitoring User
-couchbase_exporter_cb_password: Password
+couchbase_exporter_cb_password: password
 
 # The user group to use / create
 couchbase_exporter_group: couchbase-exporter
@@ -39,7 +39,7 @@ couchbase_exporter_refresh_rate: 5
 couchbase_exporter_log_json: true
 
 # log level (debug/info/warn/error)
-couchbase_exporter_log_level: debug
+couchbase_exporter_log_level: info
 
 # The address where Couchbase Server is running, when running on a node, no reason to change.
 couchbase_exporter_cb_address: localhost
