@@ -1,0 +1,13 @@
+name: Editor Config
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: EditorConfig-Action
+        uses: zbeekman/EditorConfig-Action@master
