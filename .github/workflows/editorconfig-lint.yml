@@ -1,7 +1,6 @@
 name: Editor Config
 
 on:
-  - push
   - pull_request
 
 jobs:
