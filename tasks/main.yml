@@ -1,0 +1,110 @@
+---
+# Output any variables that start with couchbase_*
+- name: Show all Couchbase Exporter variables
+  debug:
+    var: vars[item]
+  with_items: "{{ lookup('varnames', 'couchbase_exporter_.+').split(',') }}"
+  tags:
+    - couchbase_exporter_debug
+
+- name: Perform Pre-Flight Checks
+  include: preflight.yml
+
+- name: Install required packages
+  become: true
+  package:
+    name:
+      - git
+      - wget
+      - nss
+      - curl
+      - libcurl
+    state: present
+
+- name: Add group "couchbase-exporter"
+  group:
+    name: "{{ couchbase_exporter_group }}"
+    state: present
+
+- name: Add user "couchbase-exporter"
+  user:
+    name: "{{ couchbase_exporter_user }}"
+    comment: "Couchbase Exporter Account"
+    group: "{{ couchbase_exporter_group }}"
+    shell: /bin/false
+    createhome: no
+
+- name: Download couchbase-exporter sources
+  git:
+    repo: https://github.com/couchbase/couchbase-exporter.git
+    depth: 1
+    dest: "{{ couchbase_exporter_directory }}"
+    version: "{{ couchbase_exporter_verison }}"
+
+- name: Create directory for couchbase-exporter
+  become: true
+  file:
+    path: "{{ couchbase_exporter_directory }}/bin"
+    state: directory
+    owner: "{{ couchbase_exporter_user }}"
+    group: "{{ couchbase_exporter_group }}"
+    mode: 0644
+
+- name: Build couchbase-exporter
+  command:
+    cmd: "/opt/go/{{ go_version }}/bin/go build -o {{ couchbase_exporter_build_directory }}/{{ couchbase_exporter_executable }} ."
+    chdir: "{{ couchbase_exporter_directory }}"
+    creates: "{{ couchbase_exporter_build_directory }}/{{ couchbase_exporter_executable }}"
+
+- name: Create an Environment File for couchbase-exporter
+  become: true
+  template:
+    src: EnvironmentFile.j2
+    dest: "{{ couchbase_exporter_environment_file }}"
+    owner: "{{ couchbase_exporter_user }}"
+    group: "{{ couchbase_exporter_group }}"
+    mode: 0644
+
+- name: Ensure couchbase-exporter permissions are correctly set
+  file:
+    path: "{{ couchbase_exporter_directory }}"
+    state: directory
+    recurse: yes
+    owner: "{{ couchbase_exporter_user }}"
+    group: "{{ couchbase_exporter_group }}"
+    mode: 0644
+
+- name: Ensure couchbase-exporter permissions are correctly set
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: "{{ couchbase_exporter_user }}"
+    group: "{{ couchbase_exporter_group }}"
+    mode: 0755
+  with_items:
+    - "{{ couchbase_exporter_directory }}"
+    - "{{ couchbase_exporter_build_directory }}"
+    - "{{ couchbase_exporter_build_directory }}/couchbase_exporter_executable"
+
+- name: Set up couchbase-exporter systemd service
+  become: true
+  template:
+    src: couchbase-exporter.service.j2
+    dest: /etc/systemd/system/couchbase-exporter.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Start couchbase-exporter
+  become: true
+  systemd:
+    name: couchbase-exporter.service
+    state: started
+    daemon_reload: true
+
+- name: Wait for couchbase-exporter to start
+  wait_for:
+      host: "{{ couchbase_exporter_server_address }}"
+      port: "{{ couchbase_exporter_server_port }}"
+      connect_timeout: 5

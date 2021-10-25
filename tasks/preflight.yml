@@ -1,0 +1,36 @@
+---
+- name: When variables are not valued
+  fail:
+    msg: "The variable {{ item }} must contain a value"
+  when: ( vars[item] | length == 0 )
+  with_items:
+    - couchbase_exporter_cb_username
+    - couchbase_exporter_cb_password
+    - couchbase_exporter_group
+    - couchbase_exporter_user
+    - couchbase_exporter_directory
+    - couchbase_exporter_build_directory
+    - couchbase_exporter_executable
+    - couchbase_exporter_server_address
+    - couchbase_exporter_log_level
+    - couchbase_exporter_cb_address
+    - couchbase_exporter_environment_file
+
+- name: Fail when a variable is not a number
+  fail:
+    msg: "The {{ item }} property must be numeric"
+  when: ( vars[item] is not number )
+  with_items:
+    - couchbase_exporter_server_port
+    - couchbase_exporter_backoff_limit
+    - couchbase_exporter_refresh_rate
+
+- name: Fail when log json is not a boolean
+  fail:
+    msg: "The couchbase_exporter_log_json property must be a boolean true or false, remove quotes"
+  when: ( couchbase_exporter_log_json is string )
+
+- name: Fail when the log level contains an invalid value
+  fail:
+    msg: "The couchbase_exporter_log_level can only be: debug, info, warn, error"
+  when: ( couchbase_exporter_log_level not in ['debug','info','warn','error'] )

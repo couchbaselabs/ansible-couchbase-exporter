@@ -1,0 +1,69 @@
+---
+# The version of the Couchbase Exporter to install
+couchbase_exporter_verison: HEAD
+
+# The Monitoring user to use, this is stored an an environment file
+couchbase_exporter_cb_username: Administrator
+
+# The password to use for the Monitoring User
+couchbase_exporter_cb_password: Password
+
+# The user group to use / create
+couchbase_exporter_group: couchbase-exporter
+
+# The user to use / create and run the process as
+couchbase_exporter_user: couchbase-exporter
+
+# The installation directory for the exporter
+couchbase_exporter_directory: /opt/couchbase-exporter
+
+# The artifact directory to use when the exporter is built
+couchbase_exporter_build_directory: "{{ couchbase_exporter_directory }}/bin"
+
+# The name of the exporter executable
+couchbase_exporter_executable: couchbase-exporter
+
+# The address to host the server on, default all interfaces
+couchbase_exporter_server_address: 0.0.0.0
+
+# The port to host the server on
+couchbase_exporter_server_port: 9091
+
+# number of retries after panicking before exiting
+couchbase_exporter_backoff_limit: 5
+
+# How frequently to collect per_node_bucket_stats collector in seconds
+couchbase_exporter_refresh_rate: 5
+
+# if set to true, logs will be JSON formatted
+couchbase_exporter_log_json: true
+
+# log level (debug/info/warn/error)
+couchbase_exporter_log_level: debug
+
+# The address where Couchbase Server is running, when running on a node, no reason to change.
+couchbase_exporter_cb_address: localhost
+
+# The Environment File to create and store credentials in
+couchbase_exporter_environment_file: "{{ couchbase_exporter_directory }}/.env"
+
+# The GoVersion to install
+go_version: 1.17.2
+
+# bearer token that allows access to /metrics
+couchbase_exporter_token: ""
+
+# certificate file for exporter in order to serve metrics over TLS
+couchbase_exporter_certificate: ""
+
+# private key file for exporter in order to serve metrics over TLS
+couchbase_exporter_key: ""
+
+# PKI certificate authority file
+couchbase_exporter_ca: ""
+
+# client certificate file to authenticate this client with couchbase-server
+couchbase_exporter_client_certificate: ""
+
+# client private key file to authenticate this client with couchbase-server
+couchbase_exporter_client_key: ""

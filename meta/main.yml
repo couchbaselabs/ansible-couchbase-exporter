@@ -1,0 +1,38 @@
+---
+galaxy_info:
+  author: Aaron Benton
+  description: Installs the Couchbase GoLang Exporter to be used on pre Couchbase Server 7.x and earlier.
+  company: Couchbase
+  license: Apache
+  role_name: couchbase_exporter
+  min_ansible_version: 2.7
+  platforms:
+    - name: Amazon
+      versions:
+        - All
+    - name: Ubuntu
+      versions:
+        - bionic
+        - xenial
+    - name: Debian
+      versions:
+        - stretch
+        - buster
+    - name: EL
+      versions:
+        - 7
+        - 8
+    - name: Fedora
+      versions:
+        - 30
+        - 31
+  galaxy_tags:
+    - couchbase
+    - exporter
+    - prometheus
+    - metrics
+
+dependencies:
+  - role: gantsign.golang
+    vars:
+      golang_version: 1.17.2
