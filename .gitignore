@@ -1,0 +1,80 @@
+# ignore all files starting with . or ~
+.*
+~*
+
+# ignore node directories
+node_modules/
+
+# ignore OS generated files
+ehthumbs.db
+Thumbs.db
+
+# ignore Editor files
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+
+# ignore text / office files
+*.bak
+*.csv
+*.doc
+*.docx
+*.pdf
+*.xls
+*.xlsx
+*.txt
+
+# ignore log files and databases
+*.log
+*.sql
+*.sqlite
+
+# ignore compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Binaries / compiled files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Dependency directories
+vendor/
+
+# ignore packaged files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# ignore private/secret files
+*.der
+*.key
+*.pem
+
+# --------------------------------------------------------
+# BEGIN Explictly Allowed Files (i.e. do NOT ignore these)
+# --------------------------------------------------------
+
+# track these files, if they exist
+!.ansible-lint
+!.editorconfig
+!.gitattributes
+!.gitignore
+!.github
+!.yamllint
