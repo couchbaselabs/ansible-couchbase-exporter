@@ -1,9 +1,5 @@
 ---
 extends: default
-ignore: |
-  .github/
-  meta/
-
 rules:
   braces:
     max-spaces-inside: 1
