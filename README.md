@@ -1,9 +1,10 @@
 # Couchbase Server Ansible Role
 
+[![Ansible Role](https://img.shields.io//ansible/role/couchbaselabs.couchbase_exporter.svg)](https://galaxy.ansible.com/couchbaselabs/couchbase_server)
+[![Ansible Quality](https://img.shields.io/ansible/quality/couchbaselabs.couchbase_exporter.svg)](https://galaxy.ansible.com/couchbaselabs/couchbase_server)
 [![lint workflow](https://github.com/couchbaselabs/ansible-couchbase-exporter/actions/workflows/lint.yaml/badge.svg?branch=master)]
-[![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT)
-[![Ansible Role](https://img.shields.io/badge/ansible%20role-couchbaselabs.couchbase_exporter-blue.svg)](https://galaxy.ansible.com/couchbaselabs/couchbase_exporter/)
-[![GitHub tag](https://img.shields.io/github/tag/couchbaselabs/ansible-couchbase-exporter.svg)](https://github.com/couchbaselabs/ansible-couchbase-exporter/tags)
+[![GitHub Downloads](https://img.shields.io/github/downloads/couchbaselabs/ansible-couchbase-exporter/total.svg)](https://github.com/couchbaselabs/ansible-couchbase-exporter/tags)
+[![License](https://img.shields.io/github/license/couchbaselabs/ansible-couchbase-exporter.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 ## Description
 
@@ -66,4 +67,4 @@ Use it in a playbook as follows:
 
 ## License
 
-This project is licensed under Apache 2.0. See [LICENSE](/LICENSE) for more details.
+This project is provided as is with no support and is licensed under Apache 2.0. See [LICENSE](/LICENSE) for more details.
