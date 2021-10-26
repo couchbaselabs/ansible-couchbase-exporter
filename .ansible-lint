@@ -1,6 +1,5 @@
 ---
-skip_list:
-- '106'
+skip_list: []
 exclude_paths:
   - ./examples/
 parseable: true
