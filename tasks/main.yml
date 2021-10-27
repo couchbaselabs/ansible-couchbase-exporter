@@ -57,6 +57,18 @@
     group: "{{ couchbase_exporter_group }}"
     mode: 0644
 
+- name: Ensure couchbase-exporter permissions are correctly set
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: true
+    owner: "{{ couchbase_exporter_user }}"
+    group: "{{ couchbase_exporter_group }}"
+    mode: 0755
+  with_items:
+    - "{{ couchbase_exporter_directory }}"
+    - "{{ couchbase_exporter_directory }}/bin"
+
 - name: Build couchbase-exporter
   command:
     cmd: "/opt/go/{{ go_version }}/bin/go build -o {{ couchbase_exporter_directory }}/bin/{{ couchbase_exporter_executable }} ."
@@ -77,28 +89,7 @@
     group: "{{ couchbase_exporter_group }}"
     mode: 0644
 
-- name: Ensure couchbase-exporter permissions are correctly set
-  file:
-    path: "{{ couchbase_exporter_directory }}"
-    state: directory
-    recurse: true
-    owner: "{{ couchbase_exporter_user }}"
-    group: "{{ couchbase_exporter_group }}"
-    mode: 0644
-
-- name: Ensure couchbase-exporter permissions are correctly set
-  file:
-    path: "{{ item }}"
-    state: directory
-    recurse: true
-    owner: "{{ couchbase_exporter_user }}"
-    group: "{{ couchbase_exporter_group }}"
-    mode: 0755
-  with_items:
-    - "{{ couchbase_exporter_directory }}"
-    - "{{ couchbase_exporter_directory }}/bin"
-
-- name: Ensure couchbase-exporter permissions are correctly set
+- name: Ensure couchbase-exporter permissions are correctly set for executable
   file:
     path: "{{ couchbase_exporter_directory }}/bin/{{ couchbase_exporter_executable }}"
     state: file
