@@ -2,7 +2,7 @@
 
 [![Ansible Role](https://img.shields.io//ansible/role/couchbaselabs.couchbase_exporter.svg)](https://galaxy.ansible.com/couchbaselabs/couchbase_server)
 [![Ansible Quality](https://img.shields.io/ansible/quality/couchbaselabs.couchbase_exporter.svg)](https://galaxy.ansible.com/couchbaselabs/couchbase_server)
-[![lint workflow](https://github.com/couchbaselabs/ansible-couchbase-exporter/actions/workflows/lint.yaml/badge.svg?branch=master)]
+[![lint workflow](https://img.shields.io/github/workflow/status/couchbaselabs/ansible-couchbase-exporter/Lint/master.svg)]
 [![GitHub Downloads](https://img.shields.io/github/downloads/couchbaselabs/ansible-couchbase-exporter/total.svg)](https://github.com/couchbaselabs/ansible-couchbase-exporter/tags)
 [![License](https://img.shields.io/github/license/couchbaselabs/ansible-couchbase-exporter.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
@@ -24,7 +24,7 @@ Deploy [Couchbase Exporter](https://github.com/couchbase/couchbase-exporter) for
 | couchbase_exporter_group | couchbase-exporter | The user group to use / create |
 | couchbase_exporter_user | couchbase-exporter | The user to use / create and run the process as |
 | couchbase_exporter_directory | `/opt/couchbase-exporter` | The installation directory for the exporter |
-| couchbase_exporter_build_directory | `"{{ couchbase_exporter_directory }}/bin"` | The artifact directory to use when the exporter is built |
+| couchbase_exporter_download_directory | `/tmp/couchbase-exporter` | The directory to download the exporter source to |
 | couchbase_exporter_executable | couchbase-exporter | The name of the exporter executable |
 | couchbase_exporter_server_address | `0.0.0.0` | The address to host the server on, default all interfaces |
 | couchbase_exporter_server_port | `9091` | The port to host the server on |

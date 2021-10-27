@@ -34,11 +34,16 @@
     shell: /bin/false
     createhome: false
 
+- name: Remove the Exporter Download Directory
+  file:
+    path: "{{ couchbase_exporter_download_directory }}"
+    state: absent
+
 - name: Download couchbase-exporter sources
   git:
     repo: https://github.com/couchbase/couchbase-exporter.git
     depth: 1
-    dest: "{{ couchbase_exporter_directory }}"
+    dest: "{{ couchbase_exporter_download_directory }}"
     version: "{{ couchbase_exporter_verison }}"
 
 - name: Create directory for couchbase-exporter
@@ -52,9 +57,14 @@
 
 - name: Build couchbase-exporter
   command:
-    cmd: "/opt/go/{{ go_version }}/bin/go build -o {{ couchbase_exporter_build_directory }}/{{ couchbase_exporter_executable }} ."
-    chdir: "{{ couchbase_exporter_directory }}"
-    creates: "{{ couchbase_exporter_build_directory }}/{{ couchbase_exporter_executable }}"
+    cmd: "/opt/go/{{ go_version }}/bin/go build -o {{ couchbase_exporter_directory }}/bin/{{ couchbase_exporter_executable }} ."
+    chdir: "{{ couchbase_exporter_download_directory }}"
+    creates: "{{ couchbase_exporter_directory }}/bin/{{ couchbase_exporter_executable }}"
+
+- name: Remove the Exporter Download Directory
+  file:
+    path: "{{ couchbase_exporter_download_directory }}"
+    state: absent
 
 - name: Create an Environment File for couchbase-exporter
   become: true
@@ -84,8 +94,15 @@
     mode: 0755
   with_items:
     - "{{ couchbase_exporter_directory }}"
-    - "{{ couchbase_exporter_build_directory }}"
-    - "{{ couchbase_exporter_build_directory }}/couchbase_exporter_executable"
+    - "{{ couchbase_exporter_directory }}/bin"
+
+- name: Ensure couchbase-exporter permissions are correctly set
+  file:
+    path: "{{ couchbase_exporter_directory }}/bin/{{ couchbase_exporter_executable }}"
+    state: file
+    owner: "{{ couchbase_exporter_user }}"
+    group: "{{ couchbase_exporter_group }}"
+    mode: 0755
 
 - name: Set up couchbase-exporter systemd service
   become: true

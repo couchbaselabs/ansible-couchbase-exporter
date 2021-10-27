@@ -9,7 +9,7 @@
     - couchbase_exporter_group
     - couchbase_exporter_user
     - couchbase_exporter_directory
-    - couchbase_exporter_build_directory
+    - couchbase_exporter_download_directory
     - couchbase_exporter_executable
     - couchbase_exporter_server_address
     - couchbase_exporter_log_level

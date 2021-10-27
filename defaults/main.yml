@@ -17,11 +17,14 @@ couchbase_exporter_user: couchbase-exporter
 # The installation directory for the exporter
 couchbase_exporter_directory: /opt/couchbase-exporter
 
-# The artifact directory to use when the exporter is built
-couchbase_exporter_build_directory: "{{ couchbase_exporter_directory }}/bin"
-
 # The name of the exporter executable
 couchbase_exporter_executable: couchbase-exporter
+
+# The Environment File to create and store credentials in
+couchbase_exporter_environment_file: "{{ couchbase_exporter_directory }}/.env"
+
+# The directory to download the exporter source to
+couchbase_exporter_download_directory: /tmp/couchbase-exporter
 
 # The address to host the server on, default all interfaces
 couchbase_exporter_server_address: 0.0.0.0
@@ -43,9 +46,6 @@ couchbase_exporter_log_level: info
 
 # The address where Couchbase Server is running, when running on a node, no reason to change.
 couchbase_exporter_cb_address: localhost
-
-# The Environment File to create and store credentials in
-couchbase_exporter_environment_file: "{{ couchbase_exporter_directory }}/.env"
 
 # The GoVersion to install
 go_version: 1.17.2

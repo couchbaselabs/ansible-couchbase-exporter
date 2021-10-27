@@ -31,6 +31,8 @@ galaxy_info:
     - exporter
     - prometheus
     - metrics
+    - stats
+    - monitoring
 
 dependencies:
   - role: gantsign.golang
