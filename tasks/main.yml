@@ -22,11 +22,13 @@
     state: present
 
 - name: Add group "couchbase-exporter"
+  become: true
   group:
     name: "{{ couchbase_exporter_group }}"
     state: present
 
 - name: Add user "couchbase-exporter"
+  become: true
   user:
     name: "{{ couchbase_exporter_user }}"
     comment: "Couchbase Exporter Account"
