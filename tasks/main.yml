@@ -70,6 +70,7 @@
     - "{{ couchbase_exporter_directory }}/bin"
 
 - name: Build couchbase-exporter
+  become: true
   command:
     cmd: "/opt/go/{{ go_version }}/bin/go build -o {{ couchbase_exporter_directory }}/bin/{{ couchbase_exporter_executable }} ."
     chdir: "{{ couchbase_exporter_download_directory }}"
