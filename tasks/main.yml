@@ -10,7 +10,7 @@
 - name: Perform Pre-Flight Checks
   include: preflight.yml
 
-- name: Install required packages
+- name: Install latest verison of required packages required packages  # noqa 403
   become: true
   package:
     name:
@@ -19,7 +19,7 @@
       - nss
       - curl
       - libcurl
-    state: present
+    state: latest
 
 - name: Add group "couchbase-exporter"
   become: true
