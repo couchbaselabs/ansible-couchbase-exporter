@@ -2,6 +2,7 @@
 skip_list: []
 exclude_paths:
   - ./examples/
+  - $HOME/.ansible
 parseable: true
 use_default_rules: true
 verbosity: 1
