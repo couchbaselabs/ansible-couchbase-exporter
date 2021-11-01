@@ -58,6 +58,7 @@
     mode: 0644
 
 - name: Ensure couchbase-exporter permissions are correctly set
+  become: true
   file:
     path: "{{ item }}"
     state: directory
