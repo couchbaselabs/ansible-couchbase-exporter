@@ -77,4 +77,5 @@ vendor/
 !.gitattributes
 !.gitignore
 !.github
+!.gitkeep
 !.yamllint
