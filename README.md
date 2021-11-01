@@ -1,7 +1,7 @@
 # Couchbase Exporter Ansible Role
 
-[![Ansible Role](https://img.shields.io//ansible/role/couchbaselabs.couchbase_exporter.svg)](https://galaxy.ansible.com/couchbaselabs/couchbase_server)
-[![Ansible Quality](https://img.shields.io/ansible/quality/couchbaselabs.couchbase_exporter.svg)](https://galaxy.ansible.com/couchbaselabs/couchbase_server)
+[![Ansible Role](https://img.shields.io//ansible/role/couchbaselabs.couchbase_exporter.svg)](https://galaxy.ansible.com/couchbaselabs/couchbase_exporter)
+[![Ansible Quality](https://img.shields.io/ansible/quality/couchbaselabs.couchbase_exporter.svg)](https://galaxy.ansible.com/couchbaselabs/couchbase_exporter)
 [![lint workflow](https://img.shields.io/github/workflow/status/couchbaselabs/ansible-couchbase-exporter/Lint/master.svg)]
 [![GitHub Downloads](https://img.shields.io/github/downloads/couchbaselabs/ansible-couchbase-exporter/total.svg)](https://github.com/couchbaselabs/ansible-couchbase-exporter/tags)
 [![License](https://img.shields.io/github/license/couchbaselabs/ansible-couchbase-exporter.svg)](https://www.apache.org/licenses/LICENSE-2.0)
