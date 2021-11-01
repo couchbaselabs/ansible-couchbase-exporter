@@ -1,4 +1,4 @@
-# Couchbase Server Ansible Role
+# Couchbase Exporter Ansible Role
 
 [![Ansible Role](https://img.shields.io//ansible/role/couchbaselabs.couchbase_exporter.svg)](https://galaxy.ansible.com/couchbaselabs/couchbase_server)
 [![Ansible Quality](https://img.shields.io/ansible/quality/couchbaselabs.couchbase_exporter.svg)](https://galaxy.ansible.com/couchbaselabs/couchbase_server)
