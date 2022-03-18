@@ -1,0 +1,39 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=CMOS Exporter
+Documentation=https://github.com/couchbaselabs/cmos-prometheus-exporter
+Requires=network.target
+After=network.target
+
+[Service]
+Type=simple
+Environment="GOMAXPROCS={{ cmos_gomaxprocs }}"
+
+User={{ cmos_exporter_user | default('cmos-exporter') }}
+Group={{ cmos_exporter_group | default('cmos-exporter') }}
+WorkingDirectory={{ cmos_exporter_conf_dir }}
+
+ExecStart={{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }} -config-file {{ cmos_exporter_conf_dir}}/{{ cmos_exporter_conf_file}}
+
+NoNewPrivileges=true
+PrivateDevices=true
+PrivateTmp=true
+ProtectHome=true
+
+SyslogIdentifier=cmos-exporter
+Restart=always
+RestartSec=1
+StartLimitInterval=0
+
+{% if cmos_exporter_systemd_version | int >= 232 %}
+ProtectSystem=strict
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=yes
+{% else %}
+ProtectSystem=full
+{% endif %}
+
+[Install]
+WantedBy=multi-user.target

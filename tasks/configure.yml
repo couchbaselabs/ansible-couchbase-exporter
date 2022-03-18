@@ -1,0 +1,8 @@
+---
+- name: Create CMOS Exporter Config
+  template:
+    src: config.yml.j2
+    dest: "{{ cmos_exporter_conf_dir }}/{{ cmos_exporter_conf_file }}"
+    owner: root
+    group: "{{ cmos_exporter_user_group }}"
+    mode: 0640

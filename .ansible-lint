@@ -1,6 +1,10 @@
 ---
-skip_list: []
+skip_list:
+  - '106'
+  - '204'
+  - '208'
 exclude_paths:
+  - ./.github/
   - ./examples/
 parseable: true
 use_default_rules: true

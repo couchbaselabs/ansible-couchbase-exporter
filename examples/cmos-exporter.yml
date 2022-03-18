@@ -1,0 +1,44 @@
+---
+- hosts: couchbase
+  become: true
+  vars:
+    cmos_exporter_configure_firewalld: true
+    cmos_exporter_couchbase_username: Administrator
+    cmos_exporter_coucbhase_password: password
+  pre_tasks:
+    # pre_tasks happen before roles are executed / applied
+    # if the cmos_exporter_configure_firewalld is true, make sure the service is installed before proceeding
+    - name: Make sure firewalld is installed
+      package:
+        name: firewalld
+        state: present
+      when: cmos_exporter_configure_firewalld | default(false) == true
+      tags:
+        - cmos_exporter_firewalld
+  roles:
+    - couchbase_exporter
+  tasks:
+    # tasks happen after roles are executed / applied
+    # if the cmos_exporter_configure_firewalld is true, make sure the service is started
+    - name: Make sure firewalld is started
+      service:
+        name: firewalld
+        state: started
+      when: cmos_exporter_configure_firewalld | default(false) == true
+      tags:
+        - cmos_exporter_firewalld
+    - name: Add port {{ cmos_exporter_bind_port }} (cmos-exporter)
+      ansible.posix.firewalld:
+        port: "{{ cmos_exporter_bind_port }}/tcp"
+        permanent: true
+        state: enabled
+      when: cmos_exporter_configure_firewalld | default(false) == true
+      tags:
+        - cmos_exporter_firewalld
+    - name: Make sure firewalld is restarted
+      service:
+        name: firewalld
+        state: restarted
+      when: cmos_exporter_configure_firewalld | default(false) == true
+      tags:
+        - cmos_exporter_firewalld

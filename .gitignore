@@ -22,7 +22,6 @@ Thumbs.db
 *.pdf
 *.xls
 *.xlsx
-*.txt
 
 # ignore log files and databases
 *.log
