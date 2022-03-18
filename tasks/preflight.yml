@@ -68,7 +68,7 @@
       register: __cmos_exporter_current_version_output
       check_mode: false
       # this cannot be change until a --version flag is added
-      when: _cmos_exporter_get_version == true and __cmos_exporter_is_installed.stat.exists == true
+      when: _cmos_exporter_get_version and __cmos_exporter_is_installed.stat.exists
       tags:
         - cmos_exporter_install
 
