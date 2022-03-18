@@ -15,6 +15,9 @@ jobs:
         uses: ansible/ansible-lint-action@master
         with:
           targets: "."
+          override-deps: |
+            ansible==2.9
+            ansible-lint==4.2.0
       # Yaml Lint
       - name: yaml-lint
         id: yaml-lint
