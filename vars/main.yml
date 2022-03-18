@@ -5,3 +5,5 @@ _cmos_exporter_github_url: "https://github.com/{{ cmos_exporter_github_org }}/{{
 
 _cmos_exporter_systemd_path: /etc/systemd/system
 _cmos_exporter_systemd_unit: cmos-exporter.service
+
+_cmos_exporter_get_version: false

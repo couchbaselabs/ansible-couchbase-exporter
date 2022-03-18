@@ -68,14 +68,14 @@
       register: __cmos_exporter_current_version_output
       check_mode: false
       # this cannot be change until a --version flag is added
-      when: false == true and __cmos_exporter_is_installed.stat.exists == true
+      when: _cmos_exporter_get_version == true and __cmos_exporter_is_installed.stat.exists == true
       tags:
         - cmos_exporter_install
 
 - block:
     - name: Get the latest published CMOS Exporter
       become: false
-      # this will need to be changed from /releases to /releases/latests once a GA release has been made
+      # this will need to be changed from /releases to /releases/latest once a GA release has been made
       shell: |
         set -o pipefail && curl -s https://api.github.com/repos/{{ _cmos_exporter_github_org }}/{{ _cmos_exporter_github_repo }}/releases \
           | grep tag_name \
