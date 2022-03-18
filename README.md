@@ -8,7 +8,7 @@ Deploy [CMOS Exporter](https://github.com/couchbaselabs/cmos-prometheus-exporter
 
 ## Requirements
 
--   Ansible >= 2.9 (It might work on previous versions, but we cannot guarantee it)
+-   Ansible >= 2.10 (It might work on previous versions, but we cannot guarantee it)
 -   jmespath on deployer machine. If you are using Ansible from a Python virtualenv, install *jmespath* to the same virtualenv via pip.
 -   gnu-tar on Mac deployer host (`brew install gnu-tar`)
 
