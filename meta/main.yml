@@ -4,7 +4,7 @@ galaxy_info:
   description: Installs the Couchbase CMOS Exporter to be used on pre Couchbase Server 7.x and earlier.
   company: Couchbase
   license: Apache
-  role_name: couchbase_exporter
+  role_name: couchbaselabs.couchbase_exporter
   min_ansible_version: 2.9
   platforms:
     - name: Amazon

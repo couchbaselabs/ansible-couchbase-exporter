@@ -16,7 +16,7 @@
       tags:
         - cmos_exporter_firewalld
   roles:
-    - couchbase_exporter
+    - couchbaselabs.couchbase_exporter
   tasks:
     # tasks happen after roles are executed / applied
     # if the cmos_exporter_configure_firewalld is true, make sure the service is started
