@@ -1,0 +1,3 @@
+---
+- src: https://github.com/couchbaselabs/ansible-couchbase-exporter.git
+  name: couchbaselabs.couchbase_exporter

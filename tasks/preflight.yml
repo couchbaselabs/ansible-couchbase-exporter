@@ -1,36 +1,116 @@
 ---
-- name: When variables are not valued
+
+- name: Fail when variables are not defined
   fail:
-    msg: "The variable {{ item }} must contain a value"
-  when: ( vars[item] | length == 0 )
+    msg: "The {{ item }} property must be set"
+  when: ( item is not defined )
   with_items:
-    - couchbase_exporter_cb_username
-    - couchbase_exporter_cb_password
-    - couchbase_exporter_group
-    - couchbase_exporter_user
-    - couchbase_exporter_directory
-    - couchbase_exporter_build_directory
-    - couchbase_exporter_executable
-    - couchbase_exporter_server_address
-    - couchbase_exporter_log_level
-    - couchbase_exporter_cb_address
-    - couchbase_exporter_environment_file
+    - cmos_exporter_couchbase_host
+    - cmos_exporter_couchbase_username
+    - cmos_exporter_couchbase_password
+    - cmos_exporter_bind_address
+    - cmos_exporter_bind_port
+    - cmos_exporter_fake_collections
 
-- name: Fail when a variable is not a number
+- name: Fail when variables do not have a length
   fail:
-    msg: "The {{ item }} property must be numeric"
-  when: ( vars[item] is not number )
+    msg: "The {{ item }} property must be valued"
+  when: ( item | string | length == 0 )
   with_items:
-    - couchbase_exporter_server_port
-    - couchbase_exporter_backoff_limit
-    - couchbase_exporter_refresh_rate
+    - cmos_exporter_couchbase_host
+    - cmos_exporter_couchbase_username
+    - cmos_exporter_couchbase_password
+    - cmos_exporter_bind_address
+    - cmos_exporter_bind_port
+    - cmos_exporter_fake_collections
 
-- name: Fail when log json is not a boolean
+- name: Fail when cmos_exporter_fake_collections is a string and not a boolean
   fail:
-    msg: "The couchbase_exporter_log_json property must be a boolean true or false, remove quotes"
-  when: ( couchbase_exporter_log_json is string )
+    msg: "The cmos_exporter_fake_collections property must be boolean"
+  when: ( cmos_exporter_fake_collections is defined and cmos_exporter_fake_collections is string )
 
-- name: Fail when the log level contains an invalid value
+- name: Fail when cmos_exporter_bind_port is not a number
   fail:
-    msg: "The couchbase_exporter_log_level can only be: debug, info, warn, error"
-  when: ( couchbase_exporter_log_level not in ['debug','info','warn','error'] )
+    msg: "The cmos_exporter_bind_port property must be an integer"
+  when: ( cmos_exporter_bind_port is defined and cmos_exporter_fake_collections is not number )
+
+- name: Assert usage of systemd as an init system
+  assert:
+    that: ansible_service_mgr == 'systemd'
+    msg: "This role only works with systemd"
+
+- name: Get systemd version
+  command: systemctl --version
+  changed_when: false
+  check_mode: false
+  register: __systemd_version
+  tags:
+    - skip_ansible_lint
+
+- name: Set systemd version fact
+  set_fact:
+    cmos_exporter_systemd_version: "{{ __systemd_version.stdout_lines[0] | regex_replace('^systemd\\s(\\d+).*$', '\\1') }}"
+
+- block:
+    - name: Check if cmos-exporter is installed
+      stat:
+        path: "{{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }}"
+      register: __cmos_exporter_is_installed
+      check_mode: false
+      tags:
+        - cmos_exporter_install
+
+    - name: Gather currently installed cmos version (if any)
+      command: "{{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }} --version | cut -d 'v' -f 2"
+      args:
+        warn: false
+      changed_when: false
+      register: __cmos_exporter_current_version_output
+      check_mode: false
+      # this cannot be change until a --version flag is added
+      when: _cmos_exporter_get_version and __cmos_exporter_is_installed.stat.exists
+      tags:
+        - cmos_exporter_install
+
+- block:
+    - name: Get the latest published CMOS Exporter
+      become: false
+      # this will need to be changed from /releases to /releases/latest once a GA release has been made
+      shell: |
+        set -o pipefail && curl -s https://api.github.com/repos/{{ _cmos_exporter_github_org }}/{{ _cmos_exporter_github_repo }}/releases \
+          | grep tag_name \
+          | cut -d '"' -f 4 | cut -c 2-
+      register: _cmos_exporter_version_request
+      delegate_to: localhost
+      check_mode: false
+      tags:
+        - cmos_exporter_install
+        - cmos_exporter_configure
+
+    - name: Set the CMOS Exporter Version
+      set_fact:
+        cmos_exporter_version: "{{ _cmos_exporter_version_request.stdout }}"
+      tags:
+        - cmos_exporter_install
+        - cmos_exporter_configure
+
+  when: not __cmos_exporter_is_installed.stat.exists
+
+- name: Set the CMOS Exporter Download URL
+  set_fact:
+    cmos_exporter_download_url: "https://github.com/{{ _cmos_exporter_github_org }}/{{ _cmos_exporter_github_repo }}/releases/download/v{{ cmos_exporter_version }}/cmos-exporter-linux-amd64"
+  tags:
+    - cmos_exporter_install
+    - cmos_exporter_configure
+
+- name: CMOS Exporter Version
+  debug:
+    msg: "{{ cmos_exporter_version }}"
+  tags:
+    - cmos_exporter_install
+
+- name: CMOS Exporter Download URL
+  debug:
+    msg: "{{ cmos_exporter_download_url }}"
+  tags:
+    - cmos_exporter_install

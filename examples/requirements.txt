@@ -1,0 +1,4 @@
+ansible>=2.10
+jmespath
+git-lfs
+ansible-lint

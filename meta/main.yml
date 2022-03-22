@@ -1,10 +1,10 @@
 ---
 galaxy_info:
   author: Aaron Benton
-  description: Installs the Couchbase GoLang Exporter to be used on pre Couchbase Server 7.x and earlier.
+  description: Installs the Couchbase CMOS Exporter to be used on pre Couchbase Server 7.x and earlier.
   company: Couchbase
   license: Apache
-  role_name: couchbase_exporter
+  role_name: couchbaselabs.couchbase_exporter
   min_ansible_version: 2.9
   platforms:
     - name: Amazon
@@ -31,8 +31,4 @@ galaxy_info:
     - exporter
     - prometheus
     - metrics
-
-dependencies:
-  - role: gantsign.golang
-    vars:
-      golang_version: 1.17.2
+    - cmos
