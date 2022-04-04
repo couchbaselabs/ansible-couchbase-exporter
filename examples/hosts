@@ -1,0 +1,16 @@
+[cluster1]
+node1.cluster1.acme.com
+node2.cluster1.acme.com
+node3.cluster1.acme.com
+node4.cluster1.acme.com
+node5.cluster1.acme.com
+node6.cluster1.acme.com
+
+[cluster2]
+node1.cluster2.acme.com
+node2.cluster2.acme.com
+node3.cluster2.acme.com
+
+[couchbase:children]
+cluster1
+cluster2

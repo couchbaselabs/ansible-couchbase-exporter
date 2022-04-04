@@ -14,7 +14,7 @@ Deploy [CMOS Exporter](https://github.com/couchbaselabs/cmos-prometheus-exporter
 
 ## Role Variables
 
-All variables which can be overridden are stored in [defaults/main.yml](defaults/main.yml) file as well as in table below.  The only values necessary to change would be the `cmos_exporter_couchbase_username` and `cmos_exporter_couchbase_password`.
+All variables which can be overridden are stored in [defaults/main.yml](defaults/main.yml) file as well as in table below.  The only values necessary to change would be the `couchbase_username` and `couchbase_password`.
 
 | **Name**           | **Default Value** | **Description**                    |
 | :-------------- | :------------- | :-----------------------------------|
@@ -27,11 +27,11 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 | cmos_exporter_conf_file | config.yml | The name of the config file |
 | cmos_exporter_local_tmp_dir | /tmp/cmos-exporter | The temp directory on the Ansible Controller to download the release to |
 | cmos_exporter_log_level | info | The log level to use |
-| cmos_exporter_couchbase_host | localhost | The Couchbase server address, this should really be left to localhost as that is where the exporter is installed |
-| cmos_exporter_couchbase_management_port | 8091 | The Couchbase Management port |
-| cmos_exporter_couchbase_username | Administrator | The Couchbase username |
-| cmos_exporter_couchbase_password | password | The Couchbase password |
-| cmos_exporter_couchbase_ssl | false | Whether or not to use ssl |
+| couchbase_host | localhost | The Couchbase server address, this should really be left to localhost as that is where the exporter is installed |
+| couchbase_management_port | 8091 | The Couchbase Management port |
+| couchbase_username | Administrator | The Couchbase username |
+| couchbase_password | password | The Couchbase password |
+| couchbase_ssl | false | Whether or not to use ssl |
 | cmos_exporter_bind_address | 0.0.0.0 | The address to bind to |
 | cmos_exporter_bind_port | 9091 | The port to bind to |
 | cmos_exporter_fake_collections | true | Whether or not to fake scopes/collections |

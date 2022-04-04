@@ -5,9 +5,9 @@
     msg: "The {{ item }} property must be set"
   when: ( item is not defined )
   with_items:
-    - cmos_exporter_couchbase_host
-    - cmos_exporter_couchbase_username
-    - cmos_exporter_couchbase_password
+    - couchbase_host
+    - couchbase_username
+    - couchbase_password
     - cmos_exporter_bind_address
     - cmos_exporter_bind_port
     - cmos_exporter_fake_collections
@@ -17,9 +17,9 @@
     msg: "The {{ item }} property must be valued"
   when: ( item | string | length == 0 )
   with_items:
-    - cmos_exporter_couchbase_host
-    - cmos_exporter_couchbase_username
-    - cmos_exporter_couchbase_password
+    - couchbase_host
+    - couchbase_username
+    - couchbase_password
     - cmos_exporter_bind_address
     - cmos_exporter_bind_port
     - cmos_exporter_fake_collections
@@ -33,6 +33,11 @@
   fail:
     msg: "The cmos_exporter_bind_port property must be an integer"
   when: ( cmos_exporter_bind_port is defined and cmos_exporter_fake_collections is not number )
+
+- name: Fail when the log level contains an invalid value
+  fail:
+    msg: "The cmos_exporter_log_level can only be: debug, info, warn, error"
+  when: ( cmos_exporter_log_level not in ['debug','info','warn','error'] )
 
 - name: Assert usage of systemd as an init system
   assert:
@@ -52,13 +57,40 @@
     cmos_exporter_systemd_version: "{{ __systemd_version.stdout_lines[0] | regex_replace('^systemd\\s(\\d+).*$', '\\1') }}"
 
 - block:
+    - name: Get the Couchbase Cluster Info
+      no_log: true
+      uri:
+        url: http://{{ inventory_hostname }}:8091/pools/default
+        method: GET
+        user: "{{ couchbase_username }}"
+        password: "{{ couchbase_password }}"
+        timeout: 2
+      register: _results
+
+    - name: Set the Couchbase Server Version from the result of API call
+      set_fact:
+        couchbase_server_version: "{{ _results.json | community.general.json_query('nodes[?thisNode].version | [0]') }}"
+      when: not couchbase_server_version
+
+    - name: Couchbase Server Version
+      debug:
+        msg: "{{ couchbase_server_version }}"
+
+    - name: Fail when the installed version of Couchbase is 7.x or greater
+      fail:
+        msg: >
+          The CMOS Couchbase Exporter does not need to be installed when using Couchbase 7.x+ metrics are natively exposed through a /metrics endpoint.
+          See: https://docs.couchbase.com/server/current/manage/monitor/set-up-prometheus-for-monitoring.html
+      when: couchbase_server_version is version('7.0.0', '>=')
+  tags:
+    - cmos_exporter_install
+
+- block:
     - name: Check if cmos-exporter is installed
       stat:
         path: "{{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }}"
       register: __cmos_exporter_is_installed
       check_mode: false
-      tags:
-        - cmos_exporter_install
 
     - name: Gather currently installed cmos version (if any)
       command: "{{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }} --version | cut -d 'v' -f 2"
@@ -69,8 +101,9 @@
       check_mode: false
       # this cannot be change until a --version flag is added
       when: _cmos_exporter_get_version and __cmos_exporter_is_installed.stat.exists
-      tags:
-        - cmos_exporter_install
+
+  tags:
+    - cmos_exporter_install
 
 - block:
     - name: Get the latest published CMOS Exporter
@@ -83,16 +116,14 @@
       register: _cmos_exporter_version_request
       delegate_to: localhost
       check_mode: false
-      tags:
-        - cmos_exporter_install
-        - cmos_exporter_configure
 
     - name: Set the CMOS Exporter Version
       set_fact:
         cmos_exporter_version: "{{ _cmos_exporter_version_request.stdout }}"
-      tags:
-        - cmos_exporter_install
-        - cmos_exporter_configure
+
+  tags:
+    - cmos_exporter_install
+    - cmos_exporter_configure
 
   when: not __cmos_exporter_is_installed.stat.exists
 
