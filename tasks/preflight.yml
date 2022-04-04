@@ -81,7 +81,7 @@
         msg: >
           The CMOS Couchbase Exporter does not need to be installed when using Couchbase 7.x+ metrics are natively exposed through a /metrics endpoint.
           See: https://docs.couchbase.com/server/current/manage/monitor/set-up-prometheus-for-monitoring.html
-      when: (couchbase_server_version | split('.') | first | int) >= 7
+      when: couchbase_server_version is version('7.0.0', '>=')
   tags:
     - cmos_exporter_install
 
