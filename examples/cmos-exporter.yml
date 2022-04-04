@@ -2,9 +2,9 @@
 - hosts: couchbase
   become: true
   vars:
-    cmos_exporter_configure_firewalld: true
-    cmos_exporter_couchbase_username: Administrator
-    cmos_exporter_coucbhase_password: password
+    cmos_exporter_configure_firewalld: false
+    couchbase_username: Administrator
+    couchbase_password: password
   pre_tasks:
     # pre_tasks happen before roles are executed / applied
     # if the cmos_exporter_configure_firewalld is true, make sure the service is installed before proceeding

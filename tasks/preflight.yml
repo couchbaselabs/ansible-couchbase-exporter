@@ -5,9 +5,9 @@
     msg: "The {{ item }} property must be set"
   when: ( item is not defined )
   with_items:
-    - cmos_exporter_couchbase_host
-    - cmos_exporter_couchbase_username
-    - cmos_exporter_couchbase_password
+    - couchbase_host
+    - couchbase_username
+    - couchbase_password
     - cmos_exporter_bind_address
     - cmos_exporter_bind_port
     - cmos_exporter_fake_collections
@@ -17,9 +17,9 @@
     msg: "The {{ item }} property must be valued"
   when: ( item | string | length == 0 )
   with_items:
-    - cmos_exporter_couchbase_host
-    - cmos_exporter_couchbase_username
-    - cmos_exporter_couchbase_password
+    - couchbase_host
+    - couchbase_username
+    - couchbase_password
     - cmos_exporter_bind_address
     - cmos_exporter_bind_port
     - cmos_exporter_fake_collections
@@ -33,6 +33,11 @@
   fail:
     msg: "The cmos_exporter_bind_port property must be an integer"
   when: ( cmos_exporter_bind_port is defined and cmos_exporter_fake_collections is not number )
+
+- name: Fail when the log level contains an invalid value
+  fail:
+    msg: "The cmos_exporter_log_level can only be: debug, info, warn, error"
+  when: ( cmos_exporter_log_level not in ['debug','info','warn','error'] )
 
 - name: Assert usage of systemd as an init system
   assert:

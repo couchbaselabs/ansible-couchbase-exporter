@@ -11,11 +11,11 @@ cmos_exporter_local_tmp_dir: /tmp/cmos-exporter
 cmos_exporter_log_level: info
 
 # couchbase connection variables
-cmos_exporter_couchbase_host: localhost
-cmos_exporter_couchbase_management_port: 8091
-cmos_exporter_couchbase_username: Administrator
-cmos_exporter_couchbase_password: password
-cmos_exporter_couchbase_ssl: false
+couchbase_host: localhost
+couchbase_management_port: 8091
+couchbase_username: Administrator
+couchbase_password: password
+couchbase_ssl: false
 
 # process variables
 cmos_exporter_bind_address: 0.0.0.0
