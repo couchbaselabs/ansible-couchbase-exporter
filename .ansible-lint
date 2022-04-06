@@ -3,6 +3,8 @@ skip_list:
   - '106'
   - '204'
   - '208'
+  - fqcn-builtins
+  - no-changed-when
 exclude_paths:
   - ./.github/
   - ./examples/
