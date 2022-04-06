@@ -1,6 +1,6 @@
 ---
 # service variables
-cmos_exporter_version: 0.4.0
+cmos_exporter_version: 0.5.2
 cmos_exporter_user: cmos-exporter
 cmos_exporter_user_group: cmos-exporter
 cmos_exporter_install_dir: /opt/cmos-exporter/bin
