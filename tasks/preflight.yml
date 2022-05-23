@@ -70,7 +70,6 @@
     - name: Set the Couchbase Server Version from the result of API call
       set_fact:
         couchbase_server_version: "{{ _results.json | community.general.json_query('nodes[?thisNode].version | [0]') }}"
-      when: not couchbase_server_version
 
     - name: Couchbase Server Version
       debug:
