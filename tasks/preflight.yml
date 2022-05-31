@@ -56,7 +56,8 @@
   set_fact:
     cmos_exporter_systemd_version: "{{ __systemd_version.stdout_lines[0] | regex_replace('^systemd\\s(\\d+).*$', '\\1') }}"
 
-- block:
+- name: Get Cluster Info and Version
+  block:
     - name: Get the Couchbase Cluster Info
       no_log: true
       uri:
@@ -70,7 +71,6 @@
     - name: Set the Couchbase Server Version from the result of API call
       set_fact:
         couchbase_server_version: "{{ _results.json | community.general.json_query('nodes[?thisNode].version | [0]') }}"
-      when: not couchbase_server_version
 
     - name: Couchbase Server Version
       debug:
@@ -85,7 +85,8 @@
   tags:
     - cmos_exporter_install
 
-- block:
+- name: Install Checks
+  block:
     - name: Check if cmos-exporter is installed
       stat:
         path: "{{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }}"
@@ -105,17 +106,16 @@
   tags:
     - cmos_exporter_install
 
-- block:
+- name: Get CMOS Exporter Version
+  block:
     - name: Get the latest published CMOS Exporter
-      become: false
       # this will need to be changed from /releases to /releases/latest once a GA release has been made
       shell: |
-        set -o pipefail && curl -s https://api.github.com/repos/{{ _cmos_exporter_github_org }}/{{ _cmos_exporter_github_repo }}/releases \
+        set -o pipefail && curl -s https://api.github.com/repos/couchbaselabs/cmos-prometheus-exporter/releases \
           | grep -m 1 tag_name \
           | cut -d '"' -f 4 | cut -c 2-
       register: _cmos_exporter_version_request
-      delegate_to: localhost
-      check_mode: false
+      ignore_errors: true
 
     - name: Set the CMOS Exporter Version
       set_fact:

@@ -11,19 +11,28 @@ jobs:
     steps:
       # Ansible Lint
       - uses: actions/checkout@v3
+
       - name: Ansible Lint
         uses: ansible/ansible-lint-action@main
         with:
           targets: "."
           override-deps: |
-            ansible==2.10
-            ansible-lint==5.3.2
+            ansible==2.13
+            ansible-lint==6.2.1
+
       # Yaml Lint
       - name: yaml-lint
         id: yaml-lint
         uses: ibiqlik/action-yamllint@v3
         with:
           file_or_dir: .
+
       # Editor Config Lint
       - name: EditorConfig-Action
         uses: zbeekman/EditorConfig-Action@master
+
+      # Remark Lint
+      - name: Running Remark
+        uses: ocular-d/action-remark@0.0.10
+        with:
+          check_dir: "."

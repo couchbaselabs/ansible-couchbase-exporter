@@ -9,7 +9,7 @@ galaxy_info:
   platforms:
     - name: Amazon
       versions:
-        - All
+        - all
     - name: Ubuntu
       versions:
         - bionic
