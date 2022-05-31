@@ -2,15 +2,18 @@
 
 [![License](https://img.shields.io/github/license/couchbaselabs/ansible-couchbase-exporter.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
+
 ## Description
 
 Deploy [CMOS Exporter](https://github.com/couchbaselabs/cmos-prometheus-exporter) for generating Prometheus metrics for Couchbase Server 6.x.  The CMOS Exporter will retrieve all of the Couchbase 6.x metrics and reformat them to match the metrics exposed by Couchbase Server 7.x for a seamless monitoring transition while upgrading.
+
 
 ## Requirements
 
 -   Ansible >= 2.10 (It might work on previous versions, but we cannot guarantee it)
 -   jmespath on deployer machine. If you are using Ansible from a Python virtualenv, install *jmespath* to the same virtualenv via pip.
 -   gnu-tar on Mac deployer host (`brew install gnu-tar`)
+
 
 ## Role Variables
 
@@ -57,7 +60,7 @@ Use it in a playbook as follows:
 ```yaml
 - hosts: all
   roles:
-    - couchbase_exporter
+    - couchbaselabs.couchbase_exporter
 ```
 
 ## Useful Commands
