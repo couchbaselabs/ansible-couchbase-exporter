@@ -1,0 +1,30 @@
+{
+  "settings": {
+    "commonmark": true
+  },
+  "plugins": [
+    "remark-preset-lint-recommended",
+    "remark-lint-blank-lines-1-0-2",
+    "remark-lint-heading-whitespace",
+    "remark-lint-no-long-code",
+    "remark-preset-lint-consistent",
+    "remark-lint-no-url-trailing-slash",
+    "lint-unordered-list-marker-style",
+    "lint-ordered-list-marker-style",
+    "remark-lint-code-block-style",
+    "remark-lint-rule-style",
+    "remark-lint-strong-marker",
+    "remark-lint-emphasis-marker",
+    "remark-lint-no-heading-punctuation",
+    "remark-lint-no-shell-dollars",
+    ["remark-lint-maximum-line-length", false],
+    ["remark-lint-list-item-indent", "tab-size"],
+    ["lint-unordered-list-marker-style", "-"],
+    ["lint-ordered-list-marker-style", "."],
+    ["lint-code-block-style", "fenced"],
+    ["lint-rule-style", "---"],
+    ["lint-strong-marker", "*"],
+    ["lint-emphasis-marker", "_"],
+    ["lint-no-heading-punctuation", ".,;:!"]
+  ]
+}

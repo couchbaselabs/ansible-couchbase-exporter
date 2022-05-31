@@ -77,3 +77,5 @@ vendor/
 !.gitignore
 !.github
 !.yamllint
+!.textlintrc
+!.remarkrc

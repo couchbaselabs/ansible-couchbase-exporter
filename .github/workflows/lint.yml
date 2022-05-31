@@ -24,6 +24,13 @@ jobs:
         uses: ibiqlik/action-yamllint@v3
         with:
           file_or_dir: .
+
       # Editor Config Lint
       - name: EditorConfig-Action
         uses: zbeekman/EditorConfig-Action@master
+
+      # Remark Lint
+      - name: Running Remark
+        uses: ocular-d/action-remark@0.0.10
+        with:
+          check_dir: './'
