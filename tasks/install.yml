@@ -15,7 +15,8 @@
     shell: "/usr/sbin/nologin"
     createhome: false
 
-- block:
+- name: Install Directory
+  block:
     - name: Create CMOS Install Directory
       file:
         path: "{{ cmos_exporter_install_dir }}"
@@ -32,7 +33,8 @@
         group: "{{ cmos_exporter_user_group }}"
         mode: 0755
 
-- block:
+- name: Create Temp Directory
+  block:
     - name: Remove CMOS Exporter temp Directory if it exists
       become: false
       file:

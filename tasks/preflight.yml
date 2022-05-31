@@ -56,7 +56,8 @@
   set_fact:
     cmos_exporter_systemd_version: "{{ __systemd_version.stdout_lines[0] | regex_replace('^systemd\\s(\\d+).*$', '\\1') }}"
 
-- block:
+- name: Get Cluster Info and Version
+  block:
     - name: Get the Couchbase Cluster Info
       no_log: true
       uri:
@@ -84,7 +85,8 @@
   tags:
     - cmos_exporter_install
 
-- block:
+- name: Install Checks
+  block:
     - name: Check if cmos-exporter is installed
       stat:
         path: "{{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }}"
@@ -104,7 +106,8 @@
   tags:
     - cmos_exporter_install
 
-- block:
+- name: Get CMOS Exporter Version
+  block:
     - name: Get the latest published CMOS Exporter
       # this will need to be changed from /releases to /releases/latest once a GA release has been made
       shell: |
