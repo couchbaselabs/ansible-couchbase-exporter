@@ -117,7 +117,7 @@
   block:
     - name: Get the latest published CMOS Exporter
       # this will need to be changed from /releases to /releases/latest once a GA release has been made
-      shell: |
+      shell: | # noqa command-instead-of-module
         curl -s https://api.github.com/repos/{{ _cmos_exporter_github_org }}/{{ _cmos_exporter_github_repo }}/releases \
           | grep -m 1 tag_name \
           | cut -d '"' -f 4 | cut -c 2-
