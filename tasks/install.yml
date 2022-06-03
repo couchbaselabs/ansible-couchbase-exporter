@@ -78,13 +78,3 @@
     owner: root
     group: root
     mode: 0755
-
-- name: Cleanup Downloaded Files
-  become: false
-  file:
-    path: "{{ cmos_exporter_local_tmp_dir }}"
-    state: absent
-  delegate_to: localhost
-  check_mode: false
-  tags:
-    - fluent_bit_configure
