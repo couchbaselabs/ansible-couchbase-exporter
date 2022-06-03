@@ -85,47 +85,50 @@
   tags:
     - cmos_exporter_install
 
+
+- name: Check if cmos-exporter is installed
+  stat:
+    path: "{{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }}"
+  register: __cmos_exporter_is_installed
+  check_mode: false
+
 - name: Install Checks
   block:
-    - name: Check if cmos-exporter is installed
-      stat:
-        path: "{{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }}"
-      register: __cmos_exporter_is_installed
-      check_mode: false
-
-    - name: Gather currently installed cmos version (if any)
-      command: "{{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }} --version | cut -d 'v' -f 2"
-      args:
-        warn: false
+    - name: Gather currently installed cmos version
+      command:
+        cmd: |
+          {{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }} --version
       changed_when: false
       register: __cmos_exporter_current_version_output
       check_mode: false
-      # this cannot be change until a --version flag is added
-      when: _cmos_exporter_get_version and __cmos_exporter_is_installed.stat.exists
 
+    - name: Set CMOS Installed Version
+      set_fact:
+        cmos_exporter_installed_version: "{{ __cmos_exporter_current_version_output.stdout.split(' ')[2] }}"
+
+    - name: CMOS Installed Version
+      debug:
+        var: cmos_exporter_installed_version
   tags:
     - cmos_exporter_install
+  when: __cmos_exporter_is_installed.stat.exists
 
 - name: Get CMOS Exporter Version
   block:
     - name: Get the latest published CMOS Exporter
       # this will need to be changed from /releases to /releases/latest once a GA release has been made
-      shell: |
-        set -o pipefail && curl -s https://api.github.com/repos/couchbaselabs/cmos-prometheus-exporter/releases \
+      shell: | # noqa command-instead-of-module
+        curl -s https://api.github.com/repos/{{ _cmos_exporter_github_org }}/{{ _cmos_exporter_github_repo }}/releases \
           | grep -m 1 tag_name \
           | cut -d '"' -f 4 | cut -c 2-
       register: _cmos_exporter_version_request
-      ignore_errors: true
 
     - name: Set the CMOS Exporter Version
       set_fact:
-        cmos_exporter_version: "{{ _cmos_exporter_version_request.stdout }}"
-
+        cmos_exporter_version: "{{ _cmos_exporter_version_request.stdout | string }}"
   tags:
     - cmos_exporter_install
     - cmos_exporter_configure
-
-  when: not __cmos_exporter_is_installed.stat.exists
 
 - name: Set the CMOS Exporter Download URL
   set_fact:
@@ -136,12 +139,25 @@
 
 - name: CMOS Exporter Version
   debug:
-    msg: "{{ cmos_exporter_version }}"
+    var: cmos_exporter_version
   tags:
     - cmos_exporter_install
 
 - name: CMOS Exporter Download URL
   debug:
     msg: "{{ cmos_exporter_download_url }}"
+  tags:
+    - cmos_exporter_install
+
+- name: Set whether or not to do the install
+  set_fact:
+    __cmos_exporter_do_install: "{{  not __cmos_exporter_is_installed.stat.exists or cmos_exporter_installed_version is version_compare(cmos_exporter_version, '<') }}"
+  tags:
+    - cmos_exporter_install
+    - cmos_exporter_configure
+
+- name: Do Install
+  debug:
+    var: __cmos_exporter_do_install
   tags:
     - cmos_exporter_install

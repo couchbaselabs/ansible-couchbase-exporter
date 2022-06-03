@@ -9,9 +9,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Ansible Lint
+
+      - name: work around permission issue
+        run: git config --global --add safe.directory /github/workspace
+
+      # checkout
       - uses: actions/checkout@v3
 
+      # Ansible Lint
       - name: Ansible Lint
         uses: ansible/ansible-lint-action@main
         with:
@@ -26,10 +31,6 @@ jobs:
         uses: ibiqlik/action-yamllint@v3
         with:
           file_or_dir: .
-
-      # Editor Config Lint
-      - name: EditorConfig-Action
-        uses: zbeekman/EditorConfig-Action@master
 
       # Remark Lint
       - name: Running Remark

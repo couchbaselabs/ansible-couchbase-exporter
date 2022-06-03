@@ -5,6 +5,7 @@ skip_list:
   - '208'
   - fqcn-builtins
   - no-changed-when
+  - command-instead-of-module
 exclude_paths:
   - ./.github/
   - ./examples/

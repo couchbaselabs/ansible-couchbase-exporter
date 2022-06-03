@@ -8,7 +8,7 @@
 
 - include: install.yml
   become: true
-  when: not __cmos_exporter_is_installed.stat.exists
+  when: __cmos_exporter_do_install
   tags:
     - cmos_exporter_install
 
