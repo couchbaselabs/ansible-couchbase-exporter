@@ -14,7 +14,7 @@ User={{ cmos_exporter_user | default('cmos-exporter') }}
 Group={{ cmos_exporter_group | default('cmos-exporter') }}
 WorkingDirectory={{ cmos_exporter_conf_dir }}
 
-ExecStart={{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }} -config-file {{ cmos_exporter_conf_dir}}/{{ cmos_exporter_conf_file}}
+ExecStart={{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }} --config_file {{ cmos_exporter_conf_dir}}/{{ cmos_exporter_conf_file}}
 
 NoNewPrivileges=true
 PrivateDevices=true

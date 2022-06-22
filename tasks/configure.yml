@@ -1,4 +1,12 @@
 ---
+- name: Create CMOS Exporter Service
+  template:
+    src: cmos-exporter.service.j2
+    dest: "{{ _cmos_exporter_systemd_path }}/{{ _cmos_exporter_systemd_unit }}"
+    owner: root
+    group: root
+    mode: 0755
+
 - name: Create CMOS Exporter Config
   template:
     src: config.yml.j2

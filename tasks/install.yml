@@ -33,23 +33,13 @@
         group: "{{ cmos_exporter_user_group }}"
         mode: 0755
 
-- name: Create Temp Directory
-  block:
-    - name: Remove CMOS Exporter temp Directory if it exists
-      become: false
-      file:
-        path: "{{ cmos_exporter_local_tmp_dir }}"
-        state: absent
-      delegate_to: localhost
-      check_mode: false
-
-    - name: Create CMOS Exporter temp Directory
-      become: false
-      file:
-        path: "{{ cmos_exporter_local_tmp_dir }}"
-        state: directory
-      delegate_to: localhost
-      check_mode: false
+- name: Create CMOS Exporter temp Directory
+  become: false
+  file:
+    path: "{{ cmos_exporter_local_tmp_dir }}"
+    state: directory
+  delegate_to: localhost
+  check_mode: false
 
 - name: Download CMOS Exporter binary to local folder
   become: false
@@ -70,11 +60,3 @@
     mode: 0755
     owner: root
     group: "{{ cmos_exporter_user_group }}"
-
-- name: Create CMOS Exporter Service
-  template:
-    src: cmos-exporter.service.j2
-    dest: "{{ _cmos_exporter_systemd_path }}/{{ _cmos_exporter_systemd_unit }}"
-    owner: root
-    group: root
-    mode: 0755
