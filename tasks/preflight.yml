@@ -61,7 +61,7 @@
     - name: Get the Couchbase Cluster Info
       no_log: true
       uri:
-        url: http://{{ inventory_hostname }}:8091/pools/default
+        url: http://localhost:8091/pools/default
         method: GET
         user: "{{ couchbase_username }}"
         password: "{{ couchbase_password }}"
@@ -82,9 +82,6 @@
           The CMOS Couchbase Exporter does not need to be installed when using Couchbase 7.x+ metrics are natively exposed through a /metrics endpoint.
           See: https://docs.couchbase.com/server/current/manage/monitor/set-up-prometheus-for-monitoring.html
       when: couchbase_server_version is version('7.0.0', '>=')
-  tags:
-    - cmos_exporter_install
-
 
 - name: Check if cmos-exporter is installed
   stat:
@@ -109,11 +106,9 @@
     - name: CMOS Installed Version
       debug:
         var: cmos_exporter_installed_version
-  tags:
-    - cmos_exporter_install
   when: __cmos_exporter_is_installed.stat.exists
 
-- name: Get CMOS Exporter Version
+- name: Get CMOS Exporter Version from Github
   block:
     - name: Get the latest published CMOS Exporter
       # this will need to be changed from /releases to /releases/latest once a GA release has been made
@@ -126,16 +121,12 @@
     - name: Set the CMOS Exporter Version
       set_fact:
         cmos_exporter_version: "{{ _cmos_exporter_version_request.stdout | string }}"
-  tags:
-    - cmos_exporter_install
-    - cmos_exporter_configure
+
+  when: cmos_exporter_version == 'latest'
 
 - name: Set the CMOS Exporter Download URL
   set_fact:
     cmos_exporter_download_url: "https://github.com/{{ _cmos_exporter_github_org }}/{{ _cmos_exporter_github_repo }}/releases/download/v{{ cmos_exporter_version }}/cmos-exporter-linux-amd64"
-  tags:
-    - cmos_exporter_install
-    - cmos_exporter_configure
 
 - name: CMOS Exporter Version
   debug:
@@ -146,18 +137,11 @@
 - name: CMOS Exporter Download URL
   debug:
     msg: "{{ cmos_exporter_download_url }}"
-  tags:
-    - cmos_exporter_install
 
 - name: Set whether or not to do the install
   set_fact:
     __cmos_exporter_do_install: "{{  not __cmos_exporter_is_installed.stat.exists or cmos_exporter_installed_version is version_compare(cmos_exporter_version, '<') }}"
-  tags:
-    - cmos_exporter_install
-    - cmos_exporter_configure
 
 - name: Do Install
   debug:
     var: __cmos_exporter_do_install
-  tags:
-    - cmos_exporter_install

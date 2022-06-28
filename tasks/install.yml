@@ -12,8 +12,8 @@
     groups:
       - "{{ cmos_exporter_user_group }}"
     system: true
-    shell: "/usr/sbin/nologin"
-    createhome: false
+    shell: "{{ cmos_exporter_user_shell }}"
+    createhome: "{{ cmos_exporter_user_createhome }}"
 
 - name: Install Directory
   block:
