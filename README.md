@@ -43,6 +43,9 @@
 
 Deploy [CMOS Exporter](https://github.com/couchbaselabs/cmos-prometheus-exporter) for generating Prometheus metrics for Couchbase Server 6.x.  The CMOS Exporter will retrieve all of the Couchbase 6.x metrics and reformat them to match the metrics exposed by Couchbase Server 7.x for a seamless monitoring transition while upgrading.
 
+## Disclaimer
+
+This ansible role and the sub-components configured are not officially supported under Couchbase Enterprise Subscriptions. Please contact Couchbase on any details for your particular environment. Contents here and sub-components are provided as is, it is maintained through community contributions.  Any issues should be reported as an [Issue](https://github.com/couchbaselabs/ansible-couchbase-cbhealthagent/issues) on Github.  Pull Requests are welcomed!
 
 ## Requirements
 
