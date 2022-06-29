@@ -86,8 +86,9 @@ All variables which can be overridden are stored in [defaults/main.yml](defaults
 You can install this role with the `ansible-galaxy` command, and can run it
 directly from the git repository.
 
-```
-ansible-galaxy role install git+https://github.com/couchbaselabs/ansible-couchbase-exporter.git,,couchbaselabs.couchbase_exporter
+```bash
+ansible-galaxy role install \
+  git+https://github.com/couchbaselabs/ansible-couchbase-exporter.git,,couchbaselabs.couchbase_exporter
 ```
 
 It can also be added to a `requirements.yml` file
