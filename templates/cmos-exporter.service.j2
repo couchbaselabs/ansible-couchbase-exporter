@@ -10,8 +10,10 @@ After=network.target
 Type=simple
 Environment="GOMAXPROCS={{ cmos_gomaxprocs }}"
 
-User={{ cmos_exporter_user | default('cmos-exporter') }}
-Group={{ cmos_exporter_group | default('cmos-exporter') }}
+{% if cmos_exporter_user != 'root' %}
+User={{ cmos_exporter_user }}
+Group={{ cmos_exporter_group }}
+{% endif %}
 WorkingDirectory={{ cmos_exporter_conf_dir }}
 
 ExecStart={{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }} --config_file {{ cmos_exporter_conf_dir}}/{{ cmos_exporter_conf_file}}

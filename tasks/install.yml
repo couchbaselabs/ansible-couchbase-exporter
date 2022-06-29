@@ -1,7 +1,7 @@
 ---
 - name: Add user group "{{ cmos_exporter_user_group }}"
   group:
-    name: "{{ cmos_exporter_user }}"
+    name: "{{ cmos_exporter_user_group }}"
     system: true
     state: present
 
@@ -14,6 +14,7 @@
     system: true
     shell: "{{ cmos_exporter_user_shell }}"
     createhome: "{{ cmos_exporter_user_createhome }}"
+  when: cmos_exporter_user != 'root'
 
 - name: Install Directory
   block:
