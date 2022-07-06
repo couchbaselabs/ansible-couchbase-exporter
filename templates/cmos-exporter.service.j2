@@ -12,7 +12,7 @@ Environment="GOMAXPROCS={{ cmos_gomaxprocs }}"
 
 {% if cmos_exporter_user != 'root' %}
 User={{ cmos_exporter_user }}
-Group={{ cmos_exporter_group }}
+Group={{ cmos_exporter_user_group }}
 {% endif %}
 WorkingDirectory={{ cmos_exporter_conf_dir }}
 
