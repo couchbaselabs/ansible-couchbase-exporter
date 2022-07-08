@@ -48,7 +48,7 @@
   block:
     - name: Check if cmos_exporter_local_binary_path exists
       ansible.builtin.stat:
-        path: "{{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }}"
+        path: "{{ cmos_exporter_local_binary_path }}"
       register: __cmos_exporter_local_binary_check
       become: false
       delegate_to: localhost
