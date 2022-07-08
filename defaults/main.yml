@@ -12,6 +12,11 @@ cmos_exporter_conf_file: config.yml
 cmos_exporter_local_tmp_dir: /tmp/cmos-exporter
 cmos_exporter_log_level: info
 
+# full path to the local binary if already downloaded on the controller
+# this should only be set, if ansible is not downloading the binary and you have
+# manually downloaded the binary
+cmos_exporter_local_binary_path: ""
+
 # couchbase connection variables
 couchbase_host: localhost
 couchbase_management_port: 8091

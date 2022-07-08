@@ -44,6 +44,22 @@
     that: ansible_service_mgr == 'systemd'
     msg: "This role only works with systemd"
 
+- name: Fail when cmos_exporter_local_binary_path is defined but the file doesn't exist
+  block:
+    - name: Check if cmos_exporter_local_binary_path exists
+      ansible.builtin.stat:
+        path: "{{ cmos_exporter_install_dir }}/{{ cmos_exporter_binary }}"
+      register: __cmos_exporter_local_binary_check
+      become: false
+      delegate_to: localhost
+      check_mode: false
+
+    - name: Fail when the cmos_exporter_local_binary_path does not exist
+      ansible.builtin.fail:
+        msg: "The cmos_exporter_local_binary_path ({{ cmos_exporter_local_binary_path }}) was specified but does not exist"
+      when: not __cmos_exporter_local_binary_check.stat.exists
+  when: cmos_exporter_local_binary_path is defined and cmos_exporter_local_binary_path | length > 0
+
 - name: Get systemd version
   command: systemctl --version
   changed_when: false
