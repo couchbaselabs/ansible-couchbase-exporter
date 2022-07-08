@@ -28,4 +28,3 @@ couchbase_ssl: false
 cmos_exporter_bind_address: 0.0.0.0
 cmos_exporter_bind_port: 9091
 cmos_exporter_fake_collections: true
-cmos_gomaxprocs: "{{ ansible_processor_vcpus | default(ansible_processor_count) }}"

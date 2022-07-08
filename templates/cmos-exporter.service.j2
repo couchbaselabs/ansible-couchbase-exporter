@@ -8,7 +8,6 @@ After=network.target
 
 [Service]
 Type=simple
-Environment="GOMAXPROCS={{ cmos_gomaxprocs }}"
 
 {% if cmos_exporter_user != 'root' %}
 User={{ cmos_exporter_user }}
