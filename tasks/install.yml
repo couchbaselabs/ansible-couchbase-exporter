@@ -64,7 +64,7 @@
 
 - name: Set local path
   ansible.builtin.set_fact:
-    __cmos_exporter_local_binary_path: "{{ cmos_exporter_local_tmp_dir }}/{{ cmos_exporter_binary }}"
+    __cmos_exporter_local_binary_path: "{{ cmos_exporter_local_binary_path }}"
   when: cmos_exporter_local_binary_path is defined and cmos_exporter_local_binary_path | length > 0
 
 - name: Propagate CMOS Exporter binary
